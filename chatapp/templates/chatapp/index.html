@@ -1,9 +1,31 @@
-{% if latest_question_list %}
-    <ul>
-    {% for question in latest_question_list %}
-    <li><a href="{% url 'chatapp:detail' question.id %}">{{ question.question_text }}</a></li>
-    {% endfor %}
-    </ul>
-{% else %}
-    <p>No polls are available.</p>
-{% endif %}
+<!DOCTYPE html>
+        <body>
+            <h1>Chat</h1>
+            <hr>
+            {% for message in context %}
+                Message: {{ message.content }}
+                <p>
+                Sender: {{ message.user.username }}
+                <p>
+                <hr>
+            {% endfor %}
+
+        {% if user.is_authenticated %}
+        
+        <form action="/send" method="POST">
+            {% csrf_token %}
+            Message: <br>
+            <textarea name="content" rows="3" cols="60"></textarea>
+            <br>
+            <input type="submit" value="Send">
+        </form>
+
+        {% else %}
+            <div class="alert alert-success" role="alert">
+                <h3>Welcome!</h3>
+                <a href="{% url 'register' %}">Signup</a>
+                <a href="{% url 'login' %}">Login</a>
+            </div>
+        {% endif %}
+        <p>
+    </body>
