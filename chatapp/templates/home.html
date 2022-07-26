@@ -4,14 +4,37 @@
 {% block title %}Home{% endblock %}
 
 {% block content %}
+
+<h2>ChatApp</h2>
+
 {% if user.is_authenticated %}
   Hi {{ user.username }}!
   <p><a href="{% url 'logout' %}">Log Out</a></p>
 
   <a href="/chatapp">Send new message</a>
 
+  <h4>Show messages from:</h4>
+  <form action="/filter" method="POST">
+      <select name="username" id="user_select">
+          {% for username in users %}
+              <option value="{{ username }}">{{ username }}</option>
+          {% endfor %}
+      </select>
+      <input type="submit" value="Select">
+  </form>
+
+  {% for message in messages %}
+    <hr>
+      {{ message.content }}
+      <p>
+      From: {{ message.user.username }}
+      <p>
+  {% endfor %}
+
 {% else %}
   <p>You are not logged in</p>
   <a href="{% url 'login' %}">Log In</a>
+  <p>Or </p>
+  <a href="{% url 'signin' %}">Create new user</a>
 {% endif %}
 {% endblock %}
