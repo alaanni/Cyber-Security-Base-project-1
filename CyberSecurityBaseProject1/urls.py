@@ -25,4 +25,5 @@ urlpatterns = [
     path('', views.home, name='home'),
     path('send', views.send, name="send"),
     path('filter', views.filter, name="filter"),
+    path('delete', views.delete, name="delete"),
 ]

@@ -1,4 +1,5 @@
 from cgi import print_arguments
+from email.mime import message
 from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404, render, redirect
@@ -29,6 +30,16 @@ def home(request):
     context["messages"] = messages
 
     return render(request, 'home.html', context)
+
+@login_required
+def delete(request):
+    content = request.GET.get("message")
+    if not content:
+        return redirect("/")
+    messages = Message.objects.raw("SELECT * FROM chatapp_message WHERE user_id = {} AND content LIKE '%{}%'".format(request.user.id, content))
+    for m in messages:
+        m.delete()
+    return redirect("/")
 
 def send(request):
     form = request.POST

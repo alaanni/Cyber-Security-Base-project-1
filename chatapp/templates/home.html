@@ -1,4 +1,3 @@
-<!-- templates/home.html-->
 {% extends 'base.html' %}
 
 {% block title %}Home{% endblock %}
@@ -22,6 +21,14 @@
       </select>
       <input type="submit" value="Select">
   </form>
+
+  <div>
+    <h4>Remove your messages:</h4>
+    <form action="/delete" method="get">
+        <textarea id="message" name="message" type="text" maxlength=300 placeholder="Copypaste here the message you want to delete"></textarea><br>
+        <input id="submit" type="submit" value="Delete message"><br>
+    </form>
+</div>
 
   {% for message in messages %}
     <hr>
